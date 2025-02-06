@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renginių statistika</title>
+    <link rel="stylesheet" href="/static/stats.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Renginių statistika</h1>
+            <a href="/" class="stats-button">Atgal į pagrindinį</a>
+        </div>
+    </header>
+    <main>
+        <form method="POST" action="/stats" class="stats-form">
+            <h2>Įveskite datą</h2>
+            <input type="text" name="date" placeholder="Data (MM/DD)" required>
+            <button type="submit">Gauti statistiką</button>
+        </form>
+
+        <div class="stats-grid">
+            <!-- All Future Events Section -->
+            <div class="stats-section">
+                <h3>Būsimi renginiai (visi):</h3>
+                <div class="stats-table-container">
+                    {% for event in results.all_events %}
+                    <div class="event-card">
+                        <h3>{{ event['date'].strftime('%m/%d') }}</h3>
+                        <p>{{ event['name'] }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Past Events Section -->
+            {% if results.past_events %}
+            <div class="stats-section">
+                <h3>Įvykę renginiai iki nustatytos datos:</h3>
+                <div class="stats-table-container">
+                    {% for event in results.past_events %}
+                    <div class="event-card">
+                        <h3>{{ event['date'].strftime('%m/%d') }}</h3>
+                        <p>{{ event['name'] }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>

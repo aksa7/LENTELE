@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renginiai pagal mėnesius</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Renginiai pagal mėnesius</h1>
+            <div class="header-buttons">
+                <a href="/stats" class="stats-button">Statistika</a>
+                <form method="POST" action="/delete_all" class="delete-form">
+                    <button type="submit" class="delete-button">Ištrinti visus renginius</button>
+                </form>
+            </div>
+        </div>
+    </header>
+    <main>
+        <form method="POST" action="/add" class="add-event-form">
+            <h2>Pridėti naują renginį</h2>
+            <input type="text" name="name" placeholder="Renginio pavadinimas" required>
+            <input type="text" name="date" placeholder="Data (MM/DD)" required>
+            <button type="submit">Pridėti</button>
+        </form>
+        <div class="months-grid">
+            {% for month, events in months.items() %}
+            <div class="month-card">
+                <h2>{{ month_names[month] }}</h2>
+                <table class="month-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Pavadinimas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in events %}
+                        <tr>
+                            <td>{{ event['date'].strftime('%m/%d') }}</td>
+                            <td>{{ event['name'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>
